@@ -1,8 +1,8 @@
 {
-  "version": "2.3.0",
+  "version": "2.3.1",
   "release": "2026-09-07",
   "minimumVersion": "2.0.0",
-  "title": "Álgebra v2.3.0",
+  "title": "Álgebra v2.3.1",
   "notes": [
     "Rediseño completo de la interfaz con pestañas y navegación inferior.",
     "Nuevo historial local de resoluciones.",

@@ -1,16 +1,23 @@
-# Álgebra v2.3.0
+# Álgebra v2.3.1
 
 Aplicación móvil PWA para resolver sistemas de ecuaciones de forma visual, con cálculos exactos, pasos matemáticos y funcionamiento sin conexión.
 
 ## Versión actual
 
-**2.3.0** siguiendo el formato **MAJOR.MINOR.PATCH**:
+**2.3.1** siguiendo el formato **MAJOR.MINOR.PATCH**:
 
 - **MAJOR:** cambios grandes o incompatibles.
 - **MINOR:** nuevas funciones importantes.
 - **PATCH:** correcciones y mejoras menores.
 
-## Novedades de v2.3.0
+## Novedades de v2.3.1
+
+- Corrección crítica del inicio: la pantalla de bienvenida ya no puede bloquear la interfaz si falla una tarea secundaria.
+- Recuperación segura ante datos dañados en el almacenamiento local.
+- Nueva red de seguridad para retirar la pantalla de carga ante errores de JavaScript.
+- Service Worker actualizado a v2.3.1 para evitar reutilizar recursos antiguos.
+
+## Novedades heredadas de v2.3.0
 
 - Rediseño completo orientado a dispositivos móviles.
 - Navegación mediante pestañas: **Resolver, Historial, Herramientas y Ajustes**.
