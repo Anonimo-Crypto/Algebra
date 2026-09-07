@@ -7,7 +7,9 @@
   }
 
   function inlineMath(text) {
-    const escaped = escapeHTML(text);
+    let escaped = escapeHTML(text);
+    // Fracciones LaTeX simples generadas por el motor matemático.
+    escaped = escaped.replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '<span class="frac"><span>$1</span><span>$2</span></span>');
     return escaped
       .replace(/\\_/g, "_")
       .replace(/_([0-9]+)/g, "<sub>$1</sub>")

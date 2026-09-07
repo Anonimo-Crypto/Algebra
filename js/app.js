@@ -1,5 +1,5 @@
 (function () {
-  const APP_VERSION = "2.1.1";
+  const APP_VERSION = "2.1.2";
   const sizeBtns = document.querySelectorAll("[data-size]");
   const modeBtns = document.querySelectorAll("[data-mode]");
   const input = document.getElementById("eqs");
@@ -214,10 +214,16 @@
     }, 2600);
   });
 
-  // Best-effort fade-out when the document is being left or hidden.
-  window.addEventListener("pagehide", () => document.body.classList.add("app-closing"));
+  // Al volver desde otra aplicación, nunca dejamos una capa ni el estado de cierre bloqueando los toques.
+  function restoreInteractivity() {
+    document.body.classList.remove("app-closing");
+    if (splash && !document.body.classList.contains("app-booting")) splash.style.pointerEvents = "none";
+    document.querySelectorAll("button, input, textarea").forEach(el => { el.style.pointerEvents = "auto"; });
+  }
+  window.addEventListener("pageshow", restoreInteractivity);
+  window.addEventListener("focus", restoreInteractivity);
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") document.body.classList.add("app-closing");
+    if (document.visibilityState === "visible") restoreInteractivity();
   });
   validate();
 })();
