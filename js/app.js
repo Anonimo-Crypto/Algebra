@@ -1,6 +1,9 @@
 (function(){
 const APP_VERSION='2.3.0'; const $=id=>document.getElementById(id); const input=$('eqs'),status=$('status'),methods=$('methods'),solve=$('solve'),out=$('out'),detected=$('detectedType');
-let size=3,mode='auto',parsed=null,methodId='adicion',lastResult=null,lastSystem=null; let settings=Object.assign({typing:true,haptic:true,autoUpdate:true},JSON.parse(localStorage.getItem('algebra-settings')||'{}'));
+let size=3,mode='auto',parsed=null,methodId='adicion',lastResult=null,lastSystem=null;
+let storedSettings={};
+try{storedSettings=JSON.parse(localStorage.getItem('algebra-settings')||'{}')||{}}catch(_){localStorage.removeItem('algebra-settings')}
+let settings=Object.assign({typing:true,haptic:true,autoUpdate:true},storedSettings);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms)); const haptic=()=>settings.haptic&&navigator.vibrate&&navigator.vibrate(8); const saveSettings=()=>localStorage.setItem('algebra-settings',JSON.stringify(settings));
 function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),3800)}
 function detectSize(){const lines=input.value.split(/\n+/).map(x=>x.trim()).filter(Boolean);const vars=[...new Set((input.value.toLowerCase().match(/[xyz]/g)||[]))];if(vars.includes('z')||lines.length===3||vars.length>=3)return 3;if(lines.length===2||vars.length===2)return 2;return null}
@@ -14,7 +17,7 @@ function verification(sys,result){if(!result.ok||!result.sol)return null;const l
 async function renderResult(result,sys){out.innerHTML='';const level=$('detailLevel').value;const steps=filterSteps(result.steps,level);const check=verification(sys,result);if(check)steps.push(check);for(let i=0;i<steps.length;i++){const s=steps[i],a=document.createElement('article'),h=document.createElement('h2'),c=document.createElement('div');a.className='solution-step';c.className='step-content';c.innerHTML=renderMarkdown(s.markdown);a.append(h,c);out.appendChild(a);await typeText(h,s.titulo);haptic();if(settings.typing)await sleep(Math.min(320,100+s.markdown.length*.55))}}
 function saveHistory(sys,result){const item={id:Date.now(),input:input.value,size:sys.size,method:METHODS[methodId]?.name||methodId,detail:$('detailLevel').value,date:new Date().toLocaleString('es-419'),solution:result.sol?result.sol.map(fracDisplay):[]};const all=JSON.parse(localStorage.getItem('algebra-history')||'[]');all.unshift(item);localStorage.setItem('algebra-history',JSON.stringify(all.slice(0,50)));renderHistory()}
 solve.onclick=async()=>{validate();if(!parsed?.ok)return;solve.disabled=true;solve.textContent='Resolviendo…';try{const r=solveSystem(parsed,methodId);lastResult=r;lastSystem=parsed;await renderResult(r,parsed);saveHistory(parsed,r)}catch(e){out.innerHTML=`<article class="solution-step"><h2>Error</h2><div>${String(e.message||e)}</div></article>`}finally{solve.disabled=false;solve.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Resolver'}};
-function renderHistory(){const box=$('historyList'),all=JSON.parse(localStorage.getItem('algebra-history')||'[]');if(!all.length){box.innerHTML='<div class="empty-state"><strong>Aún no hay resoluciones</strong><span>Las soluciones que realices aparecerán aquí.</span></div>';return}box.innerHTML='';all.forEach(item=>{const b=document.createElement('button');b.className='history-card';b.innerHTML=`<strong>${item.method} · ${item.size}×${item.size}</strong><span>${item.input.replace(/\n/g,' · ')}</span><span>${item.date}</span>`;b.onclick=()=>{input.value=item.input;size=item.size;mode='manual';document.querySelector('[data-mode="manual"]').click();validate();document.querySelector('[data-tab="resolver"]').click();toast('Ejercicio restaurado.')};box.appendChild(b)})}
+function renderHistory(){const box=$('historyList');let all=[];try{all=JSON.parse(localStorage.getItem('algebra-history')||'[]');if(!Array.isArray(all))all=[]}catch(_){localStorage.removeItem('algebra-history')}if(!all.length){box.innerHTML='<div class="empty-state"><strong>Aún no hay resoluciones</strong><span>Las soluciones que realices aparecerán aquí.</span></div>';return}box.innerHTML='';all.forEach(item=>{const b=document.createElement('button');b.className='history-card';b.innerHTML=`<strong>${item.method} · ${item.size}×${item.size}</strong><span>${item.input.replace(/\n/g,' · ')}</span><span>${item.date}</span>`;b.onclick=()=>{input.value=item.input;size=item.size;mode='manual';document.querySelector('[data-mode="manual"]').click();validate();document.querySelector('[data-tab="resolver"]').click();toast('Ejercicio restaurado.')};box.appendChild(b)})}
 function plainSolution(){if(!lastResult?.sol)return null;return lastResult.sol.map((v,i)=>`${lastSystem.vars[i]} = ${fracDisplay(v)}`).join('\n')}
 document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=async()=>{const text=plainSolution();if(!text)return toast('Primero resuelve un ejercicio.');if(b.dataset.tool==='copy'){await navigator.clipboard?.writeText(text);toast('Solución copiada.')}else if(navigator.share){await navigator.share({title:'Álgebra',text})}else{await navigator.clipboard?.writeText(text);toast('Tu navegador no permite compartir. La solución fue copiada.')}});
 function switchTab(name){document.querySelectorAll('.tab-page').forEach(p=>p.classList.toggle('active',p.dataset.page===name));document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));if(name==='historial')renderHistory();window.scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('.nav-item').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
@@ -30,5 +33,26 @@ $('applyUpdate').onclick=async()=>{const p=JSON.parse(localStorage.getItem('alge
 $('offlineBtn').onclick=async()=>{$('offlineModal').classList.remove('hidden');try{const m=await fetch('./offline-manifest.json',{cache:'no-store'}).then(r=>r.json());await downloadFiles(m.files,$('offlineFiles'),{bar:'overallBar',percent:'overallPercent',speed:'downloadSpeed'},'algebra-offline-'+APP_VERSION);$('offlineSummary').textContent='Álgebra está listo para usarse sin conexión.';toast('Modo Offline preparado.')}catch(e){$('offlineSummary').textContent=String(e.message||e)}};
 let deferred;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e});$('install').onclick=async()=>{if(!deferred)return toast('Usa la opción Instalar de tu navegador.');deferred.prompt();deferred=null};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});if(settings.autoUpdate&&navigator.onLine)setTimeout(()=>checkUpdate(true),2500);window.addEventListener('online',()=>settings.autoUpdate&&checkUpdate(true));
-function start(){setTimeout(()=>{const s=$('splash');s.classList.add('leaving');$('appShell').classList.add('ready');setTimeout(()=>s.remove(),850)},2400)}renderHistory();validate();start();
+function start(){
+  const s=$('splash'), shell=$('appShell');
+  // La pantalla principal se prepara siempre, incluso si una función secundaria falla.
+  setTimeout(()=>{
+    if(s) s.classList.add('leaving');
+    if(shell) shell.classList.add('ready');
+    setTimeout(()=>{if(s&&s.isConnected)s.remove()},900);
+  },2400);
+}
+// Iniciamos la transición antes de las tareas que pueden depender del almacenamiento del navegador.
+start();
+try{renderHistory();validate()}catch(err){
+  console.error('Error de inicio de Álgebra:',err);
+  const st=$('status');
+  if(st){st.className='status err';st.textContent='Se produjo un error al cargar algunos datos guardados. Puedes continuar escribiendo una nueva ecuación.'}
+}
+// Red de seguridad: la pantalla de carga nunca debe bloquear la aplicación.
+window.addEventListener('error',()=>{
+  const splash=$('splash'),shell=$('appShell');
+  if(splash){splash.classList.add('leaving');setTimeout(()=>{if(splash.isConnected)splash.remove()},250)}
+  if(shell)shell.classList.add('ready');
+});
 })();
