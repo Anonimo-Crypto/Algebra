@@ -1,72 +1,7 @@
-(function (global) {
-  function escapeHTML(text) {
-    return String(text)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-
-  function inlineMath(text) {
-    let escaped = escapeHTML(text);
-    // Fracciones LaTeX simples generadas por el motor matemático.
-    escaped = escaped.replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '<span class="frac"><span>$1</span><span>$2</span></span>');
-    return escaped
-      .replace(/\\_/g, "_")
-      .replace(/_([0-9]+)/g, "<sub>$1</sub>")
-      .replace(/\\leftrightarrow/g, "↔")
-      .replace(/\\div/g, "÷")
-      .replace(/−/g, "−");
-  }
-
-  function fractionify(text) {
-    return text.replace(/(?<![A-Za-z0-9])(-?\d+)\/(\d+)(?![A-Za-z0-9])/g,
-      '<span class="frac"><span>$1</span><span>$2</span></span>');
-  }
-
-  function renderEquation(raw) {
-    const source = raw.trim();
-    if (source.startsWith("\\system{")) {
-      const body = source.slice(8, -1);
-      const rows = body.split("\\\\").map(inlineMath).map(fractionify);
-      return `<div class="math-block system-math"><span class="system-brace">{</span><div class="system-lines">${rows.map(r => `<div>${r}</div>`).join("")}</div></div>`;
-    }
-    if (source.startsWith("\\matrix{")) {
-      const body = source.slice(8, -1);
-      return matrixHTML(body, false);
-    }
-    if (source.startsWith("\\augmatrix{")) {
-      const body = source.slice(11, -1);
-      return matrixHTML(body, true);
-    }
-    if (source.startsWith("\\boxed{")) {
-      const body = source.slice(7, -1);
-      const rows = body.split("\\\\").map(inlineMath).map(fractionify);
-      return `<div class="math-block"><div class="math-box">${rows.map(r => `<div>${r}</div>`).join("")}</div></div>`;
-    }
-    return `<div class="math-block equation-math">${fractionify(inlineMath(source))}</div>`;
-  }
-
-  function matrixHTML(body, augmented) {
-    const rows = body.split("\\\\").map(row => row.split(" & "));
-    const middle = augmented ? Math.floor(rows[0].length / 2) : -1;
-    return `<div class="math-block matrix-math"><span class="matrix-paren">(</span><div class="matrix-grid">${rows.map(row =>
-      `<div class="matrix-row">${row.map((cell, i) => `${augmented && i === middle ? '<span class="matrix-divider"></span>' : ''}<span>${fractionify(inlineMath(cell))}</span>`).join("")}</div>`
-    ).join("")}</div><span class="matrix-paren">)</span></div>`;
-  }
-
-  function render(markdown) {
-    const blocks = String(markdown).trim().split(/\n{2,}/);
-    return blocks.map(block => {
-      if (/^#{1,3}\s/.test(block)) {
-        const text = block.replace(/^#{1,3}\s*/, "");
-        return `<h3 class="md-heading">${escapeHTML(text)}</h3>`;
-      }
-      if (block.startsWith("$$") && block.endsWith("$$")) {
-        return renderEquation(block.slice(2, -2));
-      }
-      return `<p class="md-text">${inlineMath(block).replace(/\n/g, "<br>")}</p>`;
-    }).join("");
-  }
-
-  global.renderMarkdown = render;
-})(window);
+(function(global){
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function frac(t){return t.replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g,'<span class="frac"><span>$1</span><span>$2</span></span>')}
+function math(raw){let s=esc(raw.trim());s=frac(s);s=s.replace(/\\pm/g,'±').replace(/\\quad/g,'&nbsp;&nbsp;').replace(/\\text\{([^}]*)\}/g,'$1').replace(/\\sqrt\{([^}]*)\}/g,'√($1)').replace(/Δ/g,'Δ');s=s.replace(/_([0-9]+)/g,'<sub>$1</sub>').replace(/x²/g,'x²');return s}
+function eq(raw){const s=raw.trim();if(s.startsWith('\\system{')){const b=s.slice(8,-1).split('\\\\');return '<div class="math-block system-math"><span class="system-brace">{</span><div class="system-lines">'+b.map(x=>'<div>'+math(x)+'</div>').join('')+'</div></div>'}if(s.startsWith('\\boxed{')){const b=s.slice(7,-1).split('\\\\');return '<div class="math-block"><div class="math-box">'+b.map(x=>'<div>'+math(x)+'</div>').join('')+'</div></div>'}return '<div class="math-block equation-math">'+math(s)+'</div>'}
+function render(md){let src=String(md||'').trim();const token=[];src=src.replace(/\$\$([\s\S]*?)\$\$/g,(_,x)=>{token.push(eq(x));return '\u0000M'+(token.length-1)+'\u0000'});const blocks=src.split(/\n{2,}/);return blocks.map(b=>{b=b.trim();if(!b)return'';if(/^#{1,3}\s/.test(b))return '<h3 class="md-heading">'+esc(b.replace(/^#{1,3}\s*/,''))+'</h3>';b=b.replace(/\u0000M(\d+)\u0000/g,(_,i)=>token[+i]);if(b.includes('<div class="math-block'))return b;return '<p class="md-text">'+esc(b).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')+'</p>'}).join('')}
+global.renderMarkdown=render;})(window);
