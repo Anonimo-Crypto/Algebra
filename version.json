@@ -1,6 +1,7 @@
 {
-  "version": "2.1.2",
+  "version": "2.2.0",
   "release": "2026-09-06",
   "minimumVersion": "2.0.0",
-  "notes": "Más pasos lógicos y cálculos auxiliares, fracciones visuales sin barras ambiguas y corrección de interacción al volver desde otra aplicación."
+  "notes": "Sistema de actualización dedicado con descarga opcional y aplicación de archivos, además de documentación README actualizada en cada versión.",
+  "updateManifest": "./update-manifest.json"
 }

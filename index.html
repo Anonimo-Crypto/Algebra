@@ -15,7 +15,7 @@
   <div id="splash" class="splash" aria-label="Pantalla de bienvenida">
     <div class="splash-content">
       <h1 class="splash-title">Álgebra</h1>
-      <div class="splash-version">2.1.2</div>
+      <div class="splash-version">2.2.0</div>
       <div class="splash-developer">
         <div>Desarrollador</div>
         <strong>Oscar Antonio Alvarez Collado</strong>
@@ -25,7 +25,7 @@
   <main class="app app-shell">
     <header class="top">
       <div class="brand"><h1>Álgebra</h1><div class="sub">Resolución matemática visual</div></div>
-      <div class="header-actions"><span id="versionBadge" class="version-badge">v2.1.2</span><button class="icon-button" id="install" type="button" aria-label="Instalar">⇩</button></div>
+      <div class="header-actions"><span id="versionBadge" class="version-badge">v2.2.0</span><button class="icon-button" id="install" type="button" aria-label="Instalar">⇩</button></div>
     </header>
 
     <section class="card">
@@ -71,8 +71,25 @@
       <div class="settings-row"><div><strong>Actualización automática</strong><small>Comprueba versiones cuando hay conexión</small></div><input id="autoUpdateToggle" type="checkbox" checked /></div>
     </section>
 
-    <footer class="signature">Álgebra · <span id="footerVersion">v2.1.2</span><br><span>Precisión matemática, presentación visual.</span></footer>
+    <footer class="signature">Álgebra · <span id="footerVersion">v2.2.0</span><br><span>Precisión matemática, presentación visual.</span></footer>
   </main>
+
+  <div id="updateModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="updateTitle">
+    <div class="modal-sheet update-sheet">
+      <div class="modal-head"><div><h2 id="updateTitle">Actualización disponible</h2><p id="updateSummary">Comprobando información de la nueva versión…</p></div><button id="closeUpdate" class="close-btn" type="button" aria-label="Cerrar">×</button></div>
+      <div class="update-version-card"><span>VERSIÓN DISPONIBLE</span><strong id="updateVersion">v—</strong><small id="updateRelease">—</small></div>
+      <div id="updateNotes" class="update-notes"></div>
+      <div id="updateDownloadArea" class="update-download-area hidden">
+        <div class="overall-progress"><div class="progress-track"><div id="updateOverallBar" class="progress-bar"></div></div><div><strong id="updateOverallPercent">0%</strong><span id="updateDownloadSpeed">0 KB/s</span></div></div>
+        <div id="updateFiles" class="offline-files"></div>
+      </div>
+      <div class="update-actions">
+        <button id="laterUpdate" class="secondary-btn" type="button">Ahora no</button>
+        <button id="downloadUpdate" class="go" type="button">Descargar actualización</button>
+        <button id="applyUpdate" class="go hidden" type="button">Aplicar y reiniciar</button>
+      </div>
+    </div>
+  </div>
 
   <div id="offlineModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="offlineTitle">
     <div class="modal-sheet">
