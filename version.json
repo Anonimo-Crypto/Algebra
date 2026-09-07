@@ -1,5 +1,5 @@
 {
-  "version": "2.3.1",
+  "version": "2.4.0",
   "release": "2026-09-07",
   "minimumVersion": "2.0.0",
   "notes": "Rediseño completo con pestañas, historial, selector de detalle, comprobación, herramientas y navegación móvil.",
