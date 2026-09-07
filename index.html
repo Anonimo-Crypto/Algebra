@@ -1,110 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1224" />
-  <meta name="description" content="Álgebra: resolución visual de sistemas de ecuaciones." />
-  <title>Álgebra</title>
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="icon" href="./icons/icon-192.png" />
-  <link rel="stylesheet" href="./css/style.css" />
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020"><meta name="description" content="Álgebra, resolución visual paso a paso.">
+<title>Álgebra</title><link rel="manifest" href="./manifest.json"><link rel="stylesheet" href="./css/style.css">
 </head>
-<body>
-  <div id="splash" class="splash" aria-label="Pantalla de bienvenida">
-    <div class="splash-content">
-      <h1 class="splash-title">Álgebra</h1>
-      <div class="splash-version">2.2.0</div>
-      <div class="splash-developer">
-        <div>Desarrollador</div>
-        <strong>Oscar Antonio Alvarez Collado</strong>
-      </div>
-    </div>
-  </div>
-  <main class="app app-shell">
-    <header class="top">
-      <div class="brand"><h1>Álgebra</h1><div class="sub">Resolución matemática visual</div></div>
-      <div class="header-actions"><span id="versionBadge" class="version-badge">v2.2.0</span><button class="icon-button" id="install" type="button" aria-label="Instalar">⇩</button></div>
-    </header>
-
-    <section class="card">
-      <div class="mode-row">
-        <div class="mode-selector" role="tablist" aria-label="Modo de detección">
-          <button type="button" data-mode="auto" class="on">Automático</button>
-          <button type="button" data-mode="manual">Manual</button>
-        </div>
-        <span id="detectedType" class="tiny">Detectando tipo de problema…</span>
-      </div>
-
-      <div id="manualControls" class="manual-controls hidden">
-        <div class="seg" role="tablist" aria-label="Tipo de sistema">
-          <button type="button" data-size="2">2×2</button>
-          <button type="button" data-size="3" class="on">3×3</button>
-        </div>
-      </div>
-
-      <div class="editor">
-        <div class="brace" aria-hidden="true">{</div>
-        <textarea id="eqs" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Ecuaciones" placeholder="3x + 6y = 300&#10;2x − 3y = 120"></textarea>
-      </div>
-
-      <div id="status" class="status">Escribe las ecuaciones para comenzar.</div>
-      <div id="methods" class="methods"></div>
-      <div class="controls"><button class="go" id="solve" disabled type="button">Resolver</button></div>
-    </section>
-
-    <section class="card">
-      <div id="out" class="out" aria-live="polite">
-        <article class="solution-step empty-state"><div class="empty-symbol">∑</div><div class="md-text">Tu solución aparecerá aquí.</div></article>
-      </div>
-    </section>
-
-    <section class="utility-grid">
-      <button class="utility-card" id="checkUpdate" type="button"><span>↻</span><strong>Buscar actualización</strong><small id="updateStatus">Comprobación manual</small></button>
-      <button class="utility-card" id="offlineBtn" type="button"><span>⇩</span><strong>Offline</strong><small>Preparar uso sin conexión</small></button>
-    </section>
-
-    <section class="card settings-card">
-      <div class="settings-row"><div><strong>Animación de escritura</strong><small>Revela los pasos progresivamente</small></div><input id="typingToggle" type="checkbox" checked /></div>
-      <div class="settings-row"><div><strong>Vibración</strong><small>Respuesta háptica durante la generación</small></div><input id="hapticToggle" type="checkbox" checked /></div>
-      <div class="settings-row"><div><strong>Actualización automática</strong><small>Comprueba versiones cuando hay conexión</small></div><input id="autoUpdateToggle" type="checkbox" checked /></div>
-    </section>
-
-    <footer class="signature">Álgebra · <span id="footerVersion">v2.2.0</span><br><span>Precisión matemática, presentación visual.</span></footer>
-  </main>
-
-  <div id="updateModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="updateTitle">
-    <div class="modal-sheet update-sheet">
-      <div class="modal-head"><div><h2 id="updateTitle">Actualización disponible</h2><p id="updateSummary">Comprobando información de la nueva versión…</p></div><button id="closeUpdate" class="close-btn" type="button" aria-label="Cerrar">×</button></div>
-      <div class="update-version-card"><span>VERSIÓN DISPONIBLE</span><strong id="updateVersion">v—</strong><small id="updateRelease">—</small></div>
-      <div id="updateNotes" class="update-notes"></div>
-      <div id="updateDownloadArea" class="update-download-area hidden">
-        <div class="overall-progress"><div class="progress-track"><div id="updateOverallBar" class="progress-bar"></div></div><div><strong id="updateOverallPercent">0%</strong><span id="updateDownloadSpeed">0 KB/s</span></div></div>
-        <div id="updateFiles" class="offline-files"></div>
-      </div>
-      <div class="update-actions">
-        <button id="laterUpdate" class="secondary-btn" type="button">Ahora no</button>
-        <button id="downloadUpdate" class="go" type="button">Descargar actualización</button>
-        <button id="applyUpdate" class="go hidden" type="button">Aplicar y reiniciar</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="offlineModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="offlineTitle">
-    <div class="modal-sheet">
-      <div class="modal-head"><div><h2 id="offlineTitle">Preparar modo Offline</h2><p id="offlineSummary">Descargando archivos necesarios…</p></div><button id="closeOffline" class="close-btn" type="button">×</button></div>
-      <div class="overall-progress"><div class="progress-track"><div id="overallBar" class="progress-bar"></div></div><div><strong id="overallPercent">0%</strong><span id="downloadSpeed">0 KB/s</span></div></div>
-      <div id="offlineFiles" class="offline-files"></div>
-    </div>
-  </div>
-
-  <div id="toast" class="toast" role="status"></div>
-
-  <script src="./js/frac.js"></script>
-  <script src="./js/parser.js"></script>
-  <script src="./js/markdown.js"></script>
-  <script src="./js/solver.js"></script>
-  <script src="./js/app.js"></script>
-</body>
-</html>
+<body class="app-booting">
+<div id="splash" class="splash" aria-label="Inicio"><div class="splash-content"><h1>Álgebra</h1><div class="splash-version">2.3.0</div><div class="splash-developer"><span>Desarrollador</span><strong>Oscar Antonio Alvarez Collado</strong></div></div></div>
+<div class="app-shell" id="appShell">
+<header class="app-header"><div><div class="eyebrow">MATEMÁTICAS</div><h1>Álgebra</h1></div><div class="header-right"><span class="version-badge">v2.3.0</span><button class="icon-btn" id="install" aria-label="Instalar"><svg viewBox="0 0 24 24"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3"/></svg></button></div></header>
+<main>
+<section class="tab-page active" data-page="resolver">
+<div class="hero-card"><div><span class="eyebrow">RESOLUCIÓN INTELIGENTE</span><h2>Escribe. Detecta. Resuelve.</h2><p>Introduce tus ecuaciones y Álgebra identificará el problema automáticamente.</p></div></div>
+<div class="card editor-card">
+<div class="mode-row"><div class="segmented"><button data-mode="auto" class="on">Automático</button><button data-mode="manual">Manual</button></div><span id="detectedType" class="hint">Esperando ecuaciones</span></div>
+<div id="manualControls" class="manual-controls hidden"><div class="segmented small"><button data-size="2">2×2</button><button data-size="3" class="on">3×3</button></div></div>
+<textarea id="eqs" spellcheck="false" autocapitalize="off" placeholder="3x + 6y = 300&#10;2x − 3y = 120"></textarea>
+<div id="status" class="status">Escribe las ecuaciones para comenzar.</div>
+<div class="method-label">Método de resolución</div><div id="methods" class="method-scroller"></div>
+<div class="detail-row"><div><strong>Nivel de detalle</strong><small>Controla cuántos cálculos auxiliares se muestran.</small></div><select id="detailLevel"><option value="basic">Básico</option><option value="detailed" selected>Detallado</option><option value="complete">Completo</option></select></div>
+<button id="solve" class="primary-btn" disabled><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Resolver</button>
+</div>
+<section id="out" class="results"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M4 4v16M9 7h8M9 12h6M9 17h8"/></svg><strong>Tu solución aparecerá aquí</strong><span>Los cálculos se presentarán paso a paso.</span></div></section>
+</section>
+<section class="tab-page" data-page="historial"><div class="page-title"><h2>Historial</h2><p>Tus resoluciones se guardan en este dispositivo.</p></div><div id="historyList" class="history-list"></div></section>
+<section class="tab-page" data-page="herramientas"><div class="page-title"><h2>Herramientas</h2><p>Accesos rápidos para tus cálculos.</p></div><div class="tool-grid"><button class="tool-card" data-tool="copy"><svg viewBox="0 0 24 24"><path d="M8 8h11v12H8zM5 16H4V4h12v1"/></svg><strong>Copiar solución</strong><span>Copia el último resultado</span></button><button class="tool-card" data-tool="share"><svg viewBox="0 0 24 24"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 14v6h14v-6"/></svg><strong>Compartir</strong><span>Envía la solución</span></button><button class="tool-card" id="checkUpdate"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0 2 5M20 4v7h-7"/></svg><strong>Buscar actualización</strong><span id="updateStatus">Comprobación manual</span></button><button class="tool-card" id="offlineBtn"><svg viewBox="0 0 24 24"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3"/></svg><strong>Offline</strong><span>Preparar uso sin conexión</span></button></div></section>
+<section class="tab-page" data-page="ajustes"><div class="page-title"><h2>Ajustes</h2><p>Personaliza la experiencia de Álgebra.</p></div><div class="card settings-card"><label class="setting"><span><strong>Animación de generación</strong><small>Presenta los pasos con ritmo.</small></span><input id="typingToggle" type="checkbox" checked></label><label class="setting"><span><strong>Vibración</strong><small>Respuesta háptica al generar pasos.</small></span><input id="hapticToggle" type="checkbox" checked></label><label class="setting"><span><strong>Actualización automática</strong><small>Busca versiones nuevas al tener conexión.</small></span><input id="autoUpdateToggle" type="checkbox" checked></label></div><div class="about-card"><strong>Álgebra v2.3.0</strong><span>Desarrollado por Oscar Antonio Alvarez Collado</span></div></section>
+</main>
+<nav class="bottom-nav"><button class="nav-item active" data-tab="resolver"><svg viewBox="0 0 24 24"><path d="M4 19V5h16v14zM8 9h8M8 13h5"/></svg><span>Resolver</span></button><button class="nav-item" data-tab="historial"><svg viewBox="0 0 24 24"><path d="M12 8v5l3 2M20 12a8 8 0 1 1-2.34-5.66"/></svg><span>Historial</span></button><button class="nav-item" data-tab="herramientas"><svg viewBox="0 0 24 24"><path d="m14 4 6 6-9 9H5v-6zM7 7l3 3"/></svg><span>Herramientas</span></button><button class="nav-item" data-tab="ajustes"><svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM19 12a7 7 0 0 0-.08-1l2-1.5-2-3.46-2.35.95a7.8 7.8 0 0 0-1.72-1L14.5 3h-5l-.35 2.99a7.8 7.8 0 0 0-1.72 1L5.08 6.04 3.08 9.5l2 1.5A7 7 0 0 0 5 12c0 .34.03.67.08 1l-2 1.5 2 3.46 2.35-.95a7.8 7.8 0 0 0 1.72 1L9.5 21h5l.35-2.99a7.8 7.8 0 0 0 1.72-1l2.35.95 2-3.46-2-1.5c.05-.33.08-.66.08-1Z"/></svg><span>Ajustes</span></button></nav>
+</div>
+<div id="updateModal" class="modal hidden"><div class="modal-sheet"><button class="modal-close" data-close="update">×</button><span class="eyebrow">ACTUALIZACIÓN DISPONIBLE</span><h2 id="updateVersion">v—</h2><p id="updateSummary">Comprobando información…</p><div id="updateNotes" class="notes"></div><div id="updateDownloadArea" class="hidden"><div class="overall"><div><strong id="updateOverallPercent">0%</strong><span id="updateDownloadSpeed">0 KB/s</span></div><div class="progress"><i id="updateOverallBar"></i></div></div><div id="updateFiles" class="file-list"></div></div><div class="modal-actions"><button class="secondary" data-close="update">Ahora no</button><button id="downloadUpdate" class="primary-btn">Descargar actualización</button><button id="applyUpdate" class="primary-btn hidden">Aplicar y reiniciar</button></div></div></div>
+<div id="offlineModal" class="modal hidden"><div class="modal-sheet"><button class="modal-close" data-close="offline">×</button><span class="eyebrow">USO SIN CONEXIÓN</span><h2>Preparar modo Offline</h2><p id="offlineSummary">Descargando archivos necesarios…</p><div class="overall"><div><strong id="overallPercent">0%</strong><span id="downloadSpeed">0 KB/s</span></div><div class="progress"><i id="overallBar"></i></div></div><div id="offlineFiles" class="file-list"></div></div></div>
+<div id="toast" class="toast"></div>
+<script src="./js/frac.js"></script><script src="./js/parser.js"></script><script src="./js/markdown.js"></script><script src="./js/solver.js"></script><script src="./js/app.js"></script>
+</body></html>

@@ -1,13 +1,13 @@
 {
-  "version": "2.2.0",
+  "version": "2.3.0",
   "files": [
     {
       "path": "./index.html",
-      "label": "Interfaz principal"
+      "label": "Interfaz principal rediseñada"
     },
     {
       "path": "./css/style.css",
-      "label": "Diseño visual"
+      "label": "Diseño móvil y navegación"
     },
     {
       "path": "./js/frac.js",
@@ -31,39 +31,19 @@
     },
     {
       "path": "./js/app.js",
-      "label": "Aplicación"
+      "label": "Aplicación y experiencia"
     },
     {
       "path": "./manifest.json",
       "label": "Configuración PWA"
     },
     {
-      "path": "./version.json",
-      "label": "Información de versión"
-    },
-    {
-      "path": "./icons/icon-192.png",
-      "label": "Icono 192"
-    },
-    {
-      "path": "./icons/icon-512.png",
-      "label": "Icono 512"
-    },
-    {
-      "path": "./icons/apple-touch-icon.png",
-      "label": "Icono Apple"
-    },
-    {
-      "path": "./update-manifest.json",
-      "label": "Manifiesto de actualización"
+      "path": "./offline-manifest.json",
+      "label": "Manifiesto Offline"
     },
     {
       "path": "./README.md",
       "label": "Documentación"
-    },
-    {
-      "path": "./sw.js",
-      "label": "Service Worker"
     }
   ]
 }

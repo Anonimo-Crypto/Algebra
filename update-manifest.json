@@ -1,32 +1,74 @@
 {
-  "version": "2.2.0",
-  "release": "2026-09-06",
+  "version": "2.3.0",
+  "release": "2026-09-07",
   "minimumVersion": "2.0.0",
-  "title": "Álgebra v2.2.0",
+  "title": "Álgebra v2.3.0",
   "notes": [
-    "Pantalla dedicada para actualizaciones disponibles.",
-    "Descarga opcional de los archivos de la nueva versión.",
-    "Progreso general, progreso individual, tamaño y velocidad en tiempo real.",
-    "Aplicación de la actualización después de completar la descarga.",
-    "README sincronizado con el historial de versiones."
+    "Rediseño completo de la interfaz con pestañas y navegación inferior.",
+    "Nuevo historial local de resoluciones.",
+    "Selector Básico, Detallado y Completo para controlar el nivel de pasos.",
+    "Comprobación automática sustituyendo los resultados en las ecuaciones originales.",
+    "Validación mientras se escriben las ecuaciones.",
+    "Nuevas herramientas para copiar y compartir resultados.",
+    "Sistema de actualización y modo Offline integrados en la nueva interfaz.",
+    "Iconografía vectorial SVG en toda la navegación."
   ],
   "files": [
-    {"path":"./index.html","label":"Interfaz principal"},
-    {"path":"./css/style.css","label":"Diseño visual"},
-    {"path":"./js/frac.js","label":"Fracciones exactas"},
-    {"path":"./js/parser.js","label":"Detector y analizador"},
-    {"path":"./js/markdown.js","label":"Renderizador matemático"},
-    {"path":"./js/types.js","label":"Tipos"},
-    {"path":"./js/solver.js","label":"Motor matemático"},
-    {"path":"./js/app.js","label":"Aplicación"},
-    {"path":"./manifest.json","label":"Configuración PWA"},
-    {"path":"./version.json","label":"Información de versión"},
-    {"path":"./update-manifest.json","label":"Manifiesto de actualización"},
-    {"path":"./README.md","label":"Documentación"},
-    {"path":"./offline-manifest.json","label":"Manifiesto Offline"},
-    {"path":"./sw.js","label":"Service Worker"},
-    {"path":"./icons/icon-192.png","label":"Icono 192"},
-    {"path":"./icons/icon-512.png","label":"Icono 512"},
-    {"path":"./icons/apple-touch-icon.png","label":"Icono Apple"}
+    {
+      "path": "./index.html",
+      "label": "Interfaz principal rediseñada"
+    },
+    {
+      "path": "./css/style.css",
+      "label": "Diseño móvil y navegación"
+    },
+    {
+      "path": "./js/frac.js",
+      "label": "Fracciones exactas"
+    },
+    {
+      "path": "./js/parser.js",
+      "label": "Detector y analizador"
+    },
+    {
+      "path": "./js/markdown.js",
+      "label": "Renderizador matemático"
+    },
+    {
+      "path": "./js/types.js",
+      "label": "Tipos"
+    },
+    {
+      "path": "./js/solver.js",
+      "label": "Motor matemático"
+    },
+    {
+      "path": "./js/app.js",
+      "label": "Aplicación y experiencia"
+    },
+    {
+      "path": "./manifest.json",
+      "label": "Configuración PWA"
+    },
+    {
+      "path": "./version.json",
+      "label": "Información de versión"
+    },
+    {
+      "path": "./update-manifest.json",
+      "label": "Manifiesto de actualización"
+    },
+    {
+      "path": "./offline-manifest.json",
+      "label": "Manifiesto Offline"
+    },
+    {
+      "path": "./README.md",
+      "label": "Documentación"
+    },
+    {
+      "path": "./sw.js",
+      "label": "Service Worker"
+    }
   ]
 }

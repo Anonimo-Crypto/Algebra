@@ -1,4 +1,4 @@
-const VERSION = "2.2.0";
+const VERSION = "2.3.0";
 const CACHE = `algebra-core-${VERSION}`;
 const META_CACHE = "algebra-update-meta";
 const ACTIVE_KEY = new Request(new URL("./__active_update__", self.location).href);

@@ -1,7 +1,7 @@
 {
-  "version": "2.2.0",
-  "release": "2026-09-06",
+  "version": "2.3.0",
+  "release": "2026-09-07",
   "minimumVersion": "2.0.0",
-  "notes": "Sistema de actualización dedicado con descarga opcional y aplicación de archivos, además de documentación README actualizada en cada versión.",
+  "notes": "Rediseño completo con pestañas, historial, selector de detalle, comprobación, herramientas y navegación móvil.",
   "updateManifest": "./update-manifest.json"
 }
