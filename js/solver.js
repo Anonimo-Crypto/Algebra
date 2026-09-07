@@ -73,7 +73,12 @@ function classify(A, b) {
 }
 function rowOperation(target, factor, pivot) {
     const sign = factor.n < 0 ? "+" : "−";
-    return `F_${target + 1} ${sign} ${factor.abs().toString()}F_${pivot + 1}`;
+    return `E_${target + 1} ${sign} ${factor.abs().toString()}E_${pivot + 1}`;
+}
+function operationInstruction(target, factor, pivot) {
+    const amount = factor.abs().toString();
+    const connector = factor.n < 0 ? "sumamos" : "restamos";
+    return `A la ecuación E_${target + 1} le ${connector} ${amount} vez${amount === "1" ? "" : "es"} la ecuación E_${pivot + 1}.`;
 }
 function elimination(sys, name, reduced) {
     const A = matrixCopy(sys.A), b = sys.b.map(clone), n = sys.size;
@@ -92,13 +97,13 @@ function elimination(sys, name, reduced) {
         if (pivot !== col) {
             [A[col], A[pivot]] = [A[pivot], A[col]];
             [b[col], b[pivot]] = [b[pivot], b[col]];
-            steps.push({ titulo: `Paso ${step++}`, markdown: `$$F_${col + 1}\\leftrightarrow F_${pivot + 1}$$\n\n${systemMarkdown(A, b, sys.vars)}` });
+            steps.push({ titulo: `Paso ${step++}`, markdown: `Intercambiamos las ecuaciones E_${col + 1} y E_${pivot + 1}.\n\n${systemMarkdown(A, b, sys.vars)}` });
         }
         const pv = A[col][col];
         if (!pv.eq(f(1))) {
             const before = equation(A[col], b[col], sys.vars);
             const afterRow = A[col].map((x) => x.div(pv)), afterB = b[col].div(pv);
-            steps.push({ titulo: `Paso ${step++}`, markdown: `$$F_${col + 1}\\div ${pv.toString()}$$\n\n$$(${before})÷${pv.toString()}=${equation(afterRow, afterB, sys.vars)}$$` });
+            steps.push({ titulo: `Paso ${step++}`, markdown: `Dividimos todos los términos de la ecuación E_${col + 1} entre ${pv.toString()}.\n\n$$(${before})÷${pv.toString()}=${equation(afterRow, afterB, sys.vars)}$$` });
             A[col] = afterRow;
             b[col] = afterB;
             steps.push({ titulo: `Paso ${step++}`, markdown: systemMarkdown(A, b, sys.vars) });
@@ -122,7 +127,7 @@ function elimination(sys, name, reduced) {
             const newRow = A[r].map((x, j) => x.sub(factor.mul(A[col][j])));
             const newB = b[r].sub(factor.mul(b[col]));
             const operation = rowOperation(r, factor, col);
-            steps.push({ titulo: `Paso ${step++}`, markdown: `$$${operation}$$\n\n$$(${oldEquation})${factor.n < 0 ? "+" : "−"}${factor.abs().toString()}(${pivotEquation})=${equation(newRow, newB, sys.vars)}$$` });
+            steps.push({ titulo: `Paso ${step++}`, markdown: `${operationInstruction(r, factor, col)}\n\n$$${operation}$$\n\n$$(${oldEquation})${factor.n < 0 ? "+" : "−"}${factor.abs().toString()}(${pivotEquation})=${equation(newRow, newB, sys.vars)}$$` });
             A[r] = newRow;
             b[r] = newB;
             steps.push({ titulo: `Paso ${step++}`, markdown: systemMarkdown(A, b, sys.vars) });
