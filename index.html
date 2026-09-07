@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1224" />
+  <meta name="description" content="Álgebra: resolución visual de sistemas de ecuaciones." />
+  <title>Álgebra</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+  <link rel="icon" href="./icons/icon-192.png" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <div id="splash" class="splash" aria-label="Pantalla de bienvenida">
+    <div class="splash-content">
+      <h1 class="splash-title">Álgebra</h1>
+      <div class="splash-version">2.1.1</div>
+      <div class="splash-developer">
+        <div>Desarrollador</div>
+        <strong>Oscar Antonio Alvarez Collado</strong>
+      </div>
+    </div>
+  </div>
+  <main class="app app-shell">
+    <header class="top">
+      <div class="brand"><h1>Álgebra</h1><div class="sub">Resolución matemática visual</div></div>
+      <div class="header-actions"><span id="versionBadge" class="version-badge">v2.1.1</span><button class="icon-button" id="install" type="button" aria-label="Instalar">⇩</button></div>
+    </header>
+
+    <section class="card">
+      <div class="mode-row">
+        <div class="mode-selector" role="tablist" aria-label="Modo de detección">
+          <button type="button" data-mode="auto" class="on">Automático</button>
+          <button type="button" data-mode="manual">Manual</button>
+        </div>
+        <span id="detectedType" class="tiny">Detectando tipo de problema…</span>
+      </div>
+
+      <div id="manualControls" class="manual-controls hidden">
+        <div class="seg" role="tablist" aria-label="Tipo de sistema">
+          <button type="button" data-size="2">2×2</button>
+          <button type="button" data-size="3" class="on">3×3</button>
+        </div>
+      </div>
+
+      <div class="editor">
+        <div class="brace" aria-hidden="true">{</div>
+        <textarea id="eqs" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Ecuaciones" placeholder="3x + 6y = 300&#10;2x − 3y = 120"></textarea>
+      </div>
+
+      <div id="status" class="status">Escribe las ecuaciones para comenzar.</div>
+      <div id="methods" class="methods"></div>
+      <div class="controls"><button class="go" id="solve" disabled type="button">Resolver</button></div>
+    </section>
+
+    <section class="card">
+      <div id="out" class="out" aria-live="polite">
+        <article class="solution-step empty-state"><div class="empty-symbol">∑</div><div class="md-text">Tu solución aparecerá aquí.</div></article>
+      </div>
+    </section>
+
+    <section class="utility-grid">
+      <button class="utility-card" id="checkUpdate" type="button"><span>↻</span><strong>Buscar actualización</strong><small id="updateStatus">Comprobación manual</small></button>
+      <button class="utility-card" id="offlineBtn" type="button"><span>⇩</span><strong>Offline</strong><small>Preparar uso sin conexión</small></button>
+    </section>
+
+    <section class="card settings-card">
+      <div class="settings-row"><div><strong>Animación de escritura</strong><small>Revela los pasos progresivamente</small></div><input id="typingToggle" type="checkbox" checked /></div>
+      <div class="settings-row"><div><strong>Vibración</strong><small>Respuesta háptica durante la generación</small></div><input id="hapticToggle" type="checkbox" checked /></div>
+      <div class="settings-row"><div><strong>Actualización automática</strong><small>Comprueba versiones cuando hay conexión</small></div><input id="autoUpdateToggle" type="checkbox" checked /></div>
+    </section>
+
+    <footer class="signature">Álgebra · <span id="footerVersion">v2.1.1</span><br><span>Precisión matemática, presentación visual.</span></footer>
+  </main>
+
+  <div id="offlineModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="offlineTitle">
+    <div class="modal-sheet">
+      <div class="modal-head"><div><h2 id="offlineTitle">Preparar modo Offline</h2><p id="offlineSummary">Descargando archivos necesarios…</p></div><button id="closeOffline" class="close-btn" type="button">×</button></div>
+      <div class="overall-progress"><div class="progress-track"><div id="overallBar" class="progress-bar"></div></div><div><strong id="overallPercent">0%</strong><span id="downloadSpeed">0 KB/s</span></div></div>
+      <div id="offlineFiles" class="offline-files"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="./js/frac.js"></script>
+  <script src="./js/parser.js"></script>
+  <script src="./js/markdown.js"></script>
+  <script src="./js/solver.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>

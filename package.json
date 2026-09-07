@@ -1,0 +1,13 @@
+{
+  "name": "algebra-pwa",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Resolutor visual de sistemas de ecuaciones con TypeScript y Markdown.",
+  "scripts": {
+    "build": "tsc",
+    "start": "npx serve ."
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

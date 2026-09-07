@@ -1,0 +1,18 @@
+{
+  "version": "2.1.0",
+  "files": [
+    {"path":"./index.html","label":"Interfaz principal"},
+    {"path":"./css/style.css","label":"Diseño visual"},
+    {"path":"./js/frac.js","label":"Fracciones exactas"},
+    {"path":"./js/parser.js","label":"Detector y analizador"},
+    {"path":"./js/markdown.js","label":"Renderizador matemático"},
+    {"path":"./js/types.js","label":"Tipos"},
+    {"path":"./js/solver.js","label":"Motor matemático"},
+    {"path":"./js/app.js","label":"Aplicación"},
+    {"path":"./manifest.json","label":"Configuración PWA"},
+    {"path":"./version.json","label":"Información de versión"},
+    {"path":"./icons/icon-192.png","label":"Icono 192"},
+    {"path":"./icons/icon-512.png","label":"Icono 512"},
+    {"path":"./icons/apple-touch-icon.png","label":"Icono Apple"}
+  ]
+}

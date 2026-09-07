@@ -1,0 +1,17 @@
+{
+  "id": "/",
+  "name": "Álgebra",
+  "short_name": "Álgebra",
+  "description": "Resuelve sistemas de ecuaciones con pasos matemáticos visuales.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1224",
+  "theme_color": "#0b1224",
+  "lang": "es",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

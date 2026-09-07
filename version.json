@@ -1,0 +1,6 @@
+{
+  "version": "2.1.1",
+  "release": "2026-09-06",
+  "minimumVersion": "2.0.0",
+  "notes": "Corrección de pantalla de bienvenida con firma del desarrollador y transición gradual hacia la interfaz principal."
+}
