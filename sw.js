@@ -1,4 +1,4 @@
-const VERSION = "2.1.0";
+const VERSION = "2.1.2";
 const CACHE = `algebra-core-${VERSION}`;
 const CORE = ["./","./index.html","./css/style.css","./js/frac.js","./js/parser.js","./js/markdown.js","./js/types.js","./js/solver.js","./js/app.js","./manifest.json","./version.json","./offline-manifest.json","./icons/icon-192.png"];
 self.addEventListener("install", event => event.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting())));
