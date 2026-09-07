@@ -1,4 +1,4 @@
-# Álgebra v2.1.0
+# Álgebra v2.1.2
 
 PWA móvil para resolver sistemas de ecuaciones con resultados visuales y exactitud mediante fracciones.
 
